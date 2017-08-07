@@ -32,20 +32,18 @@
         tooltipOffset: 10,
         tooltipBound: 'element', // *cursor
         tooltipShowSpeed: 'fast',
-        tooltipHideSpeed: 'fast',
+        tooltipHideSpeed: 5000,
         tooltipClass: "js-tooltiper",
         tooltipElement: "span",
         tooltipCss: {"display": "none", "white-space": "nowrap", "color": "black", "font-size": ".8em", "position": "absolute", "z-index": 9999, "background-color": "white", "padding": ".5em", "box-shadow": "0px 0px 4px 0px rgba(0,0,0,0.5)"}
-      },
-      title = null,
-      selector = $(this).selector;
+      };
 
       $.extend(settings, options);
       if(!areSettingsValid(settings)) return;
 
-      $("body").on( "mouseenter", selector, function(event) {
+      $("body").on( "mouseenter", $(this).selector, function(event) {
         showToolTip( $(this), event );
-      }).on( "mouseleave", selector, function(event) {
+      }).on( "mouseleave", $(this).selector, function(event) {
         hideToolTip( $(this) );
       });
 
@@ -72,19 +70,26 @@
         for(var i = 0; i < errs.length; i++) console.log('Tooltiper did nothing because an error occured! ' + errs[i].message);
       }
       function showToolTip(element, event) {
-        title = element.attr('title');
-        if(isToolTipShown(element) || !title) return;
+        var title = element.attr('title');
+        if(isToolTipShown(element)) {
+          element.find(settings.tooltipElement + "." + settings.tooltipClass).remove();
+          element.attr('title', element.data("tooltiperData"));
+          title = element.attr('title');
+        };
+        if(!title) return;
+        element.data("tooltiperData", title);
         element.attr('title', "");
         var tooltip = createToolTip(title, setTooltipCoords(element));
         element.append(tooltip);
         tooltip[settings.tooltipAppearenceMode](settings.tooltipShowSpeed);
       }
       function hideToolTip(element) {
-        if(!isToolTipShown(element) || !title) return;
-        element.attr('title', title);
-        title = null;
+        var title = element.data("tooltiperData");
+        if(!title || !isToolTipShown(element)) return;
         getToolTip(element)[settings.tooltipDisappearenceMode](settings.tooltipHideSpeed, function() {
           element.find(settings.tooltipElement + "." + settings.tooltipClass).remove();
+          element.attr('title', title);
+          element.removeData("tooltiperData");
         });
       }
       function createToolTip(title, coords) {
@@ -125,5 +130,6 @@
         var left = box.left + scrollLeft - clientLeft;
         return { top: top, left: left };
       }
+      return this;
     }
 })(jQuery, window, document);
