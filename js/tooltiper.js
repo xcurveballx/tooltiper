@@ -30,7 +30,7 @@
         tooltipAppearenceMode: 'fadeIn',
         tooltipDisappearenceMode: 'fadeOut',
         tooltipOffset: 10,
-        tooltipBound: 'element', // *cursor
+        tooltipBound: 'element', // cursor
         tooltipShowSpeed: 'fast',
         tooltipHideSpeed: 'fast',
         tooltipClass: "js-tooltiper",
@@ -46,6 +46,9 @@
       }).on( "mouseleave", $(this).selector, function(event) {
         hideToolTip( $(this) );
       });
+      if(settings.tooltipBound === 'cursor') $("body").on( "mousemove", $(this).selector, function(event) {
+        moveToolTip( $(this), event );
+      });
 
       function checkSettings(settings) {
         var errs = [];
@@ -57,6 +60,7 @@
         if(!isNumeric(settings.tooltipHideSpeed) && !~$.inArray(settings.tooltipHideSpeed.toLowerCase(), ['fast', 'normal', 'slow'])) errs.push(new Error('Settings.tooltipHideSpeed option should be of type Number or equal to "fast", "normal" or "slow"!'));
         if(!~$.inArray(settings.tooltipAppearenceMode, ['show', 'fadeIn', 'slideDown'])) errs.push(new Error('Settings.tooltipAppearenceMode option should be of type Number or equal to "show", "fadeIn" or "slideDown"!'));
         if(!~$.inArray(settings.tooltipDisappearenceMode, ['hide', 'fadeOut', 'slideUp'])) errs.push(new Error('Settings.tooltipDisappearenceMode option should be of type Number or equal to "hide", "fadeOut" or "slideUp"!'));
+        if(settings.tooltipBound.toLowerCase() !== 'element' && settings.tooltipBound.toLowerCase() !== 'cursor') errs.push(new Error('Settings.tooltipBound option should be equal to either "element" or "cursor"!'));
         showError(errs);
         return errs;
       }
@@ -68,6 +72,11 @@
       }
       function showError(errs) {
         for(var i = 0; i < errs.length; i++) console.log('Tooltiper did nothing because an error occured! ' + errs[i].message);
+      }
+      function moveToolTip(element, event) {
+        var tooltip = getToolTip(element);
+        var coords = setTooltipCoords(event, element);
+        tooltip.css({"top": coords.top, "left": coords.left});
       }
       function resetToolTip(element) {
         var tooltiperStop = element.data('tooltiperStop') ? false : true;
@@ -84,7 +93,7 @@
         if(!title) return;
         element.data("tooltiperTitle", title);
         element.attr('title', "");
-        var tooltip = createToolTip(title, setTooltipCoords(element));
+        var tooltip = createToolTip(title, setTooltipCoords(event, element));
         element.after(tooltip);
         tooltip[settings.tooltipAppearenceMode](settings.tooltipShowSpeed);
       }
@@ -110,7 +119,7 @@
       function isToolTipShown(element) {
         return element.next(settings.tooltipElement + "." + settings.tooltipClass).length !== 0;
       }
-      function setTooltipCoords(element) {
+      function setTooltipCoords(event, element) {
         var positionedParent = getPositionedParent(element);
         var toolTipXCoord = getToolTipXCoord(event, positionedParent);
         var toolTipYCoord = getToolTipYCoord(element[0], positionedParent) + settings.tooltipOffset + element.height();
@@ -120,7 +129,8 @@
         return positionedParent ? event.pageX - getElementCoords(positionedParent).left : event.pageX;
       }
       function getToolTipYCoord(element, positionedParent) {
-        return positionedParent ? getElementCoords(element).top - getElementCoords(positionedParent).top : getElementCoords(element).top;
+        var base = settings.tooltipBound === 'cursor' ? event.pageY : getElementCoords(element).top;
+        return positionedParent ? base - getElementCoords(positionedParent).top : base;
       }
       function getPositionedParent(element) {
         var parents = element.parents(), positions = ['absolute', 'relative', 'fixed'], positionedParent = null;
