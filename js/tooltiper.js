@@ -41,7 +41,7 @@
       $.extend(settings, options);
       if(!areSettingsValid(settings)) return;
 
-      $("body").on( "mouseenter", $(this).selector, function(event) {
+      $("body").on( "mouseenter, mousemove", $(this).selector, function(event) {
         showToolTip( $(this), event );
       }).on( "mouseleave", $(this).selector, function(event) {
         hideToolTip( $(this) );
@@ -71,12 +71,7 @@
       }
       function showToolTip(element, event) {
         var title = element.attr('title');
-        if(isToolTipShown(element)) {
-          element.find(settings.tooltipElement + "." + settings.tooltipClass).remove();
-          element.attr('title', element.data("tooltiperData"));
-          title = element.attr('title');
-        };
-        if(!title) return;
+        if(!title || isToolTipShown(element)) return;
         element.data("tooltiperData", title);
         element.attr('title', "");
         var tooltip = createToolTip(title, setTooltipCoords(element));
