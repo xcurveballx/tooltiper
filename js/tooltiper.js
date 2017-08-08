@@ -1,36 +1,23 @@
-// Avoid `console` errors in browsers that lack a console.
-(function() {
-    var method;
-    var noop = function () {};
-    var methods = [
-        'assert', 'clear', 'count', 'debug', 'dir', 'dirxml', 'error',
-        'exception', 'group', 'groupCollapsed', 'groupEnd', 'info', 'log',
-        'markTimeline', 'profile', 'profileEnd', 'table', 'time', 'timeEnd',
-        'timeline', 'timelineEnd', 'timeStamp', 'trace', 'warn'
-    ];
-    var length = methods.length;
-    var console = (window.console = window.console || {});
 
-    while (length--) {
-        method = methods[length];
-
-        // Only stub undefined methods.
-        if (!console[method]) {
-            console[method] = noop;
-        }
-    }
-}());
-
-// Place any jQuery/helper plugins in here.
+/**
+ * tooltiper.js
+ * Simple jquery plugin for tooltips.
+ *
+ * @license The MIT License, https://github.com/xcurveballx/tooltiper/blob/master/LICENSE
+ * @version 1.0
+ * @author  xcurveballx, https://github.com/xcurveballx
+ * @updated 2017-08-08
+ * @link    https://github.com/xcurveballx/tooltiper
+ *
+ */
 (function($, window, document, undefined) {
     $.fn.toolTiper = function(options) {
       var settings = {
         tooltipType: 'text',
-        tooltipDisappear: false, // *
         tooltipAppearenceMode: 'fadeIn',
         tooltipDisappearenceMode: 'fadeOut',
         tooltipOffset: 10,
-        tooltipBound: 'element', // cursor
+        tooltipBound: 'element',
         tooltipShowSpeed: 'fast',
         tooltipHideSpeed: 'fast',
         tooltipClass: "js-tooltiper",
@@ -76,7 +63,7 @@
       function moveToolTip(element, event) {
         var tooltip = getToolTip(element);
         var coords = setTooltipCoords(event, element);
-        tooltip.css({"top": coords.top, "left": coords.left});
+        tooltip.animate({"top": coords.top, "left": coords.left}, 1000/60, 'swing');
       }
       function resetToolTip(element) {
         var tooltiperStop = element.data('tooltiperStop') ? false : true;
@@ -152,3 +139,8 @@
       return this;
     }
 })(jQuery, window, document);
+/*
+todo:
+1) check css settings function
+2) choose tooltip's position based on available space above/below
+*/
