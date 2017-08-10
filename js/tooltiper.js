@@ -22,7 +22,7 @@
         tooltipHideSpeed: 'fast',
         tooltipClass: "js-tooltiper",
         tooltipElement: "span",
-        tooltipCss: {"display": "none", "white-space": "nowrap", "color": "black", "font-size": ".8em", "position": "absolute", "z-index": 9999, "background-color": "white", "padding": ".5em", "box-shadow": "0px 0px 4px 0px rgba(0,0,0,0.5)"}
+        tooltipCss: {"display": "none", "max-width": "250px", "box-sizing": "border-box", "word-wrap": "break-word", "color": "black", "font-size": ".8em", "position": "absolute", "z-index": 9999, "background-color": "white", "padding": ".5em", "box-shadow": "0px 0px 4px 0px rgba(0,0,0,0.5)"}
       };
 
       $.extend(settings, options);
@@ -37,37 +37,32 @@
         moveToolTip( $(this), event );
       });
 
-      function checkSettings(settings) {
+      function areSettingsValid(settings) {
         var errs = [];
-        if(!isNumeric(settings.tooltipOffset)) errs.push(new Error('Settings.tooltipOffset option should be of type Number!'));
+        if(!$.isNumeric(settings.tooltipOffset)) errs.push(new Error('Settings.tooltipOffset option should be of type Number!'));
         if(settings.tooltipType.toLowerCase() !== 'text' && settings.tooltipType.toLowerCase() !== 'html') errs.push(new Error('Settings.tooltipType option should be equal to either "text" or "html"!'));
         if(typeof(settings.tooltipClass).toLowerCase() !== 'string') errs.push(new Error('Settings.tooltipOffset option should be of type String!'));
         if(typeof(settings.tooltipElement).toLowerCase() !== 'string') errs.push(new Error('Settings.tooltipElement option should be of type String and contain tag name!'));
-        if(!isNumeric(settings.tooltipShowSpeed) && !~$.inArray(settings.tooltipShowSpeed.toLowerCase(), ['fast', 'normal', 'slow'])) errs.push(new Error('Settings.tooltipShowSpeed option should be of type Number or equal to "fast", "normal" or "slow"!'));
-        if(!isNumeric(settings.tooltipHideSpeed) && !~$.inArray(settings.tooltipHideSpeed.toLowerCase(), ['fast', 'normal', 'slow'])) errs.push(new Error('Settings.tooltipHideSpeed option should be of type Number or equal to "fast", "normal" or "slow"!'));
+        if(!$.isNumeric(settings.tooltipShowSpeed) && !~$.inArray(settings.tooltipShowSpeed.toLowerCase(), ['fast', 'normal', 'slow'])) errs.push(new Error('Settings.tooltipShowSpeed option should be of type Number or equal to "fast", "normal" or "slow"!'));
+        if(!$.isNumeric(settings.tooltipHideSpeed) && !~$.inArray(settings.tooltipHideSpeed.toLowerCase(), ['fast', 'normal', 'slow'])) errs.push(new Error('Settings.tooltipHideSpeed option should be of type Number or equal to "fast", "normal" or "slow"!'));
         if(!~$.inArray(settings.tooltipAppearenceMode, ['show', 'fadeIn', 'slideDown'])) errs.push(new Error('Settings.tooltipAppearenceMode option should be of type Number or equal to "show", "fadeIn" or "slideDown"!'));
         if(!~$.inArray(settings.tooltipDisappearenceMode, ['hide', 'fadeOut', 'slideUp'])) errs.push(new Error('Settings.tooltipDisappearenceMode option should be of type Number or equal to "hide", "fadeOut" or "slideUp"!'));
         if(settings.tooltipBound.toLowerCase() !== 'element' && settings.tooltipBound.toLowerCase() !== 'cursor') errs.push(new Error('Settings.tooltipBound option should be equal to either "element" or "cursor"!'));
+        if((typeof settings.tooltipCss).toLowerCase() !== 'object') errs.push(new Error('Settings.tooltipCss option should be an object containing property-value pairs like {"property": "value", ...}!'));
         showError(errs);
-        return errs;
-      }
-      function areSettingsValid(settings) {
-        return  checkSettings(settings).length ? false : true;
-      }
-      function isNumeric(num) {
-        return !isNaN(parseFloat(num)) && isFinite(num);
+        return errs.length ? false : true;
       }
       function showError(errs) {
         for(var i = 0; i < errs.length; i++) console.log('Tooltiper did nothing because an error occured! ' + errs[i].message);
       }
       function moveToolTip(element, event) {
         var tooltip = getToolTip(element);
-        var coords = setTooltipCoords(event, element);
-        tooltip.animate({"top": coords.top, "left": coords.left}, 1000/60, 'swing');
+        if(!tooltip.data('tooltiperCanMove')) return;
+        var tooltipX = getToolTipXCoord(event, getPositionedParent(element));
+        tooltip.animate({"left": tooltipX}, 1000/60, 'swing');
       }
       function resetToolTip(element) {
-        var tooltiperStop = element.data('tooltiperStop') ? false : true;
-        element.data('tooltiperStop', tooltiperStop);
+        element.data('tooltiperStop', element.data('tooltiperStop') ? false : true);
         element.next(settings.tooltipElement + "." + settings.tooltipClass).remove();
         element.attr('title', element.data("tooltiperTitle"));
         return element.attr('title');
@@ -80,7 +75,10 @@
         if(!title) return;
         element.data("tooltiperTitle", title);
         element.attr('title', "");
-        var tooltip = createToolTip(title, setTooltipCoords(event, element));
+        var tooltip = createToolTip(title);
+        tooltip.data('tooltiperCanMove', true);
+        setTooltipWidth(tooltip);
+        setTooltipCoords(event, element, tooltip);
         element.after(tooltip);
         tooltip[settings.tooltipAppearenceMode](settings.tooltipShowSpeed);
       }
@@ -97,27 +95,55 @@
           element.removeData("tooltiperTitle");
         });
       }
-      function createToolTip(title, coords) {
-        return $("<" + settings.tooltipElement + ">").addClass(settings.tooltipClass)[settings.tooltipType](title).css($.extend(settings.tooltipCss, {"top": coords.top, "left": coords.left}));
+      function createToolTip(title) {
+        return $("<" + settings.tooltipElement + ">").addClass(settings.tooltipClass)[settings.tooltipType](title).css(settings.tooltipCss);
       }
       function getToolTip(element) {
         return element.next(settings.tooltipElement + "." + settings.tooltipClass);
       }
+      function getToolTipDimensions(tooltip) {
+        var clonedTooltip = tooltip.clone().css({"position": "fixed",  "display": "block", "z-index": -9999, "visibility": "hidden", "right": 0, "bottom": 0});
+        clonedTooltip.appendTo("body");
+        var tooltipHeight = clonedTooltip.outerHeight(), tooltipWidth = clonedTooltip.outerWidth();
+        clonedTooltip.remove();
+        return {width: tooltipWidth, height: tooltipHeight};
+      }
       function isToolTipShown(element) {
         return element.next(settings.tooltipElement + "." + settings.tooltipClass).length !== 0;
       }
-      function setTooltipCoords(event, element) {
+      function setTooltipCoords(event, element, tooltip) {
         var positionedParent = getPositionedParent(element);
-        var toolTipXCoord = getToolTipXCoord(event, positionedParent);
-        var toolTipYCoord = getToolTipYCoord(element[0], positionedParent) + settings.tooltipOffset + element.height();
-        return { top: toolTipYCoord, left: toolTipXCoord };
+        var tooltipWidth = tooltip.outerWidth();
+
+        var elementOffsetTop = element.offset().top - $(window).scrollTop();
+        var elementHeight = element.outerHeight();
+        var elementOffsetBottom = $(window).height() - elementHeight - elementOffsetTop;
+        if(elementOffsetTop > elementOffsetBottom) tooltip.css({"bottom": getToolTipYCoord(element[0], positionedParent) + settings.tooltipOffset + elementHeight}); else tooltip.css({"top": getToolTipYCoord(element[0], positionedParent) + settings.tooltipOffset + elementHeight});
+
+        var pointOfMouseEntryX = getToolTipXCoord(event, positionedParent);
+        var pointOfMouseEntryOffsetLeft = positionedParent ? pointOfMouseEntryX + $(positionedParent).offset().left - $(window).scrollLeft() : pointOfMouseEntryX - $(window).scrollLeft();
+        var pointOfMouseEntryOffsetRight = $(window).width() - pointOfMouseEntryOffsetLeft;
+        var diff = tooltipWidth - pointOfMouseEntryOffsetRight;
+        var toolTipXCoord = pointOfMouseEntryX;
+        if(diff > 0) {
+          tooltip.data('tooltiperCanMove', false);
+          toolTipXCoord -= diff + settings.tooltipOffset/2;
+          if(diff > pointOfMouseEntryOffsetLeft) {
+            toolTipXCoord = toolTipXCoord + (diff - pointOfMouseEntryOffsetLeft) + settings.tooltipOffset;
+            tooltip.css({"width": pointOfMouseEntryOffsetLeft + pointOfMouseEntryOffsetRight - settings.tooltipOffset});
+          }
+        }
+        tooltip.css({"left": toolTipXCoord});
+      }
+      function setTooltipWidth(tooltip) {
+        var maxWidth = parseFloat(tooltip.css("max-width")), tooltipDimensions = getToolTipDimensions(tooltip);
+        if(tooltipDimensions.width < maxWidth) tooltip.css({"width": tooltipDimensions.width + 1}); else tooltip.css({"width": maxWidth});
       }
       function getToolTipXCoord(event, positionedParent) {
         return positionedParent ? event.pageX - getElementCoords(positionedParent).left : event.pageX;
       }
       function getToolTipYCoord(element, positionedParent) {
-        var base = settings.tooltipBound === 'cursor' ? event.pageY : getElementCoords(element).top;
-        return positionedParent ? base - getElementCoords(positionedParent).top : base;
+        return positionedParent ? getElementCoords(element).top - getElementCoords(positionedParent).top : getElementCoords(element).top;
       }
       function getPositionedParent(element) {
         var parents = element.parents(), positions = ['absolute', 'relative', 'fixed'], positionedParent = null;
@@ -139,8 +165,3 @@
       return this;
     }
 })(jQuery, window, document);
-/*
-todo:
-1) check css settings function
-2) choose tooltip's position based on available space above/below
-*/
