@@ -11,7 +11,15 @@
  *
  */
 (function($, window, document, undefined) {
-    $.fn.toolTiper = function(options) {
+    "use strict";
+    $.fn._init = $.fn.init
+    $.fn.init = function(selector, context, root) {
+        return (typeof selector === 'string') ? new $.fn._init(selector, context, root).data('selector', selector) : new $.fn._init(selector, context, root);
+    };
+    $.fn.getSelector = function() {
+        return $(this).data('selector');
+    };
+    $.fn.tooltiper = function(options) {
       var settings = {
         tooltipType: 'text',
         tooltipAppearenceMode: 'fadeIn',
@@ -23,17 +31,17 @@
         tooltipClass: "js-tooltiper",
         tooltipElement: "span",
         tooltipCss: {"display": "none", "max-width": "250px", "box-sizing": "border-box", "word-wrap": "break-word", "color": "black", "font-size": ".8em", "position": "absolute", "z-index": 9999, "background-color": "white", "padding": ".5em", "box-shadow": "0px 0px 4px 0px rgba(0,0,0,0.5)"}
-      };
-
+      },
+      selector = $(this).getSelector();
       $.extend(settings, options);
-      if(!areSettingsValid(settings)) return;
+      if(!areSettingsValid(settings) || !selector) return;
 
-      $("body").on( "mouseenter", $(this).selector, function(event) {
+      $("body").on( "mouseenter", selector, function(event) {
         showToolTip( $(this), event );
-      }).on( "mouseleave", $(this).selector, function(event) {
+      }).on( "mouseleave", selector, function(event) {
         hideToolTip( $(this) );
       });
-      if(settings.tooltipBound === 'cursor') $("body").on( "mousemove", $(this).selector, function(event) {
+      if(settings.tooltipBound === 'cursor') $("body").on( "mousemove", selector, function(event) {
         moveToolTip( $(this), event );
       });
 
