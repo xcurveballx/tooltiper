@@ -3,9 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>ToolTiper</title>
+        <title>Tooltiper - jQuery Plugin</title>
+        <meta name="description" content="Tooltiper - jQuery Plugin">
+        <meta name="author" content="xcurveballx">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.8.3.min.js"></script>
     </head>
@@ -13,22 +16,70 @@
         <!--[if lt IE 8]>
             <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <p style="position: absolute; top:50%; left: 45%; border: 1px solid red">Hello world! This is HTML5 <a href="https://html5boilerplate.com/" title="<b>Check it out</b>, dude! It is cool! <b>Check it out</b>, dude! It is cool! <b>Check it out</b>, dude! It is cool! <b>Check it out</b>, dude! It is cool! <b>Check it out</b>, dude! It is cool!"><i>Boilerplate</i></a>.</p>
-        <p>Hello world! This is HTML5 <a href="https://html5boilerplate.com/" title="Tooltips intelligently choose its position based on space available above/below the element. Default position - below the element;">Boilerplate</a>.</p>
-Hello world! This is HTML5 <a href="https://html5boilerplate.com/" title="Tooltips intelligently choose its position based on space available above/below the element. Default position - below the element;">Boilerplate</a>
-        <ol>
-          <li>Tooltiper is chainable;</li>
-          <li>Tooltiper supports plain text or html content inside tooltips;</li>
-          <li>A tooltip can be bound to either element or cursor;</li>
-          <li>It is possible to set any class and choose any tag to be used for tooltips;</li>
-          <li>It is possible to customize tooltips' styles;</li>
-          <li>Control over speed and appearence/ disappearence mode of tooltips;</li>
-          <li>Tooltips intelligently choose its position based on space available above/below the element;</li>
-        </ol>
-        <script
-  src="https://code.jquery.com/jquery-1.7.min.js"
-  integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84="
-  crossorigin="anonymous"></script>
+        <header>
+          Tooltiper - jQuery Plugin
+        </header>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-xs-12 example example1">
+              <header><p><h1>Basic usage</h1></p></header>
+              <p>Just select elements with <code>title</code> attribute and call <code>tooltiper()</code> on them inside jQuery's <code>ready()</code> function:</p>
+              <p><pre>$(".example1 a").tooltiper();</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+            <div class="col-xs-12 example example2">
+              <header><p><h1>HTML inside tooltips</h1></p></header>
+              <p>In order to treat the content of tooltips as HTML pass <code>tooltipType: 'html'</code> option in <code>tooltiper()</code> plugin:</p>
+              <p><pre>$(".example2 a").tooltiper({tooltipType: 'html'});</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="<b>Tooltiper</b> - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+            <div class="col-xs-12 example example3">
+              <header><p><h1>Appearence mode of tooltips</h1></p></header>
+              <p>The default options are <code>'fadeIn/fadeOut'</code>. Other valid options are <code>['show', 'slideDown']</code> for appearence mode and <code>['hide', 'slideUp']</code> for disappearence mode:</p>
+              <p><pre>$(".example3 a").tooltiper({
+  tooltipAppearenceMode: 'slideDown',
+  tooltipDisappearenceMode: 'slideUp'
+});</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+            <div class="col-xs-12 example example4">
+              <header><p><h1>Appearence/disappearence speed </h1></p></header>
+              <p>The default option is <code>'fast'</code>. Other valid options are <code>['slow', 'normal']</code> or some numeric value:</p>
+              <p><pre>$(".example4 a").tooltiper({
+  tooltipShowSpeed: 300,
+  tooltipHideSpeed: 800
+});</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+            <div class="col-xs-12 example example5">
+              <header><p><h1>Bounding tooltip to the cursor</h1></p></header>
+              <p>By default the tooltips don't move after appearing. It is possible to change it and bound the tooltip to the cursor by passing in the option <code>tooltipBound: 'cursor'</code>:</p>
+              <p><pre>$(".example5 a").tooltiper({tooltipBound: 'cursor'});</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+            <div class="col-xs-12 example example6">
+              <header><p><h1>Changing markup and styles of tooltips</h1></p></header>
+              <p>The tooltips are created as <code>span</code>s with some predefined css properties applied and class <code>js-tooltiper</code> is assigned. It is possible to change this initial setup:
+              <p><pre>$(".example6 a").tooltiper({
+  tooltipClass: "js-fancy-class",
+  tooltipElement: "div",
+  tooltipCss: {"color": "red"}
+});</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+            <div class="col-xs-12 example example7">
+              <header><p><h1>Tooltiper is chainable</h1></p></header>
+              <p>It means that other jQuery functions/plugins can be chained to the Tooltiper call:
+              <p><pre>$(".example7 a").tooltiper().on('click', function(event) {
+  event.preventDefault();
+  alert("This click-event handler has been chained to the Tooltiper!");
+});</pre></p>
+              <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
+            </div>
+          </div>
+        </div>
+        <footer>Available under the MIT license. Author - <a href="https://github.com/xcurveballx" target="_blank">xcurveballx</a> (©).</footer>
+        <script src="https://code.jquery.com/jquery-1.7.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84=" crossorigin="anonymous"></script>
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
         <script src="js/tooltiper.js"></script>
         <script src="js/main.js"></script>

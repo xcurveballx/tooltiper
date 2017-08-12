@@ -33,7 +33,7 @@
         tooltipCss: {"display": "none", "max-width": "250px", "box-sizing": "border-box", "word-wrap": "break-word", "color": "black", "font-size": ".8em", "position": "absolute", "z-index": 9999, "background-color": "white", "padding": ".5em", "box-shadow": "0px 0px 4px 0px rgba(0,0,0,0.5)"}
       },
       selector = $(this).getSelector();
-      $.extend(settings, options);
+      settings = $.extend(true, {}, settings, options);
       if(!areSettingsValid(settings) || !selector) return;
 
       $("body").on( "mouseenter", selector, function(event) {
@@ -66,7 +66,8 @@
       function moveToolTip(element, event) {
         var tooltip = getToolTip(element);
         if(!tooltip.data('tooltiperCanMove')) return;
-        var tooltipX = getToolTipXCoord(event, getPositionedParent(element));
+        var positionedParent = $(getPositionedParent(element));
+        var tooltipX = positionedParent.length ? event.pageX - positionedParent.offset().left : event.pageX;
         tooltip.animate({"left": tooltipX}, 1000/60, 'swing');
       }
       function resetToolTip(element) {
@@ -120,16 +121,20 @@
         return element.next(settings.tooltipElement + "." + settings.tooltipClass).length !== 0;
       }
       function setTooltipCoords(event, element, tooltip) {
-        var positionedParent = getPositionedParent(element);
+        var positionedParent = $(getPositionedParent(element));
         var tooltipWidth = tooltip.outerWidth();
 
         var elementOffsetTop = element.offset().top - $(window).scrollTop();
         var elementHeight = element.outerHeight();
         var elementOffsetBottom = $(window).height() - elementHeight - elementOffsetTop;
-        if(elementOffsetTop > elementOffsetBottom) tooltip.css({"bottom": getToolTipYCoord(element[0], positionedParent) + settings.tooltipOffset + elementHeight}); else tooltip.css({"top": getToolTipYCoord(element[0], positionedParent) + settings.tooltipOffset + elementHeight});
-
-        var pointOfMouseEntryX = getToolTipXCoord(event, positionedParent);
-        var pointOfMouseEntryOffsetLeft = positionedParent ? pointOfMouseEntryX + $(positionedParent).offset().left - $(window).scrollLeft() : pointOfMouseEntryX - $(window).scrollLeft();
+        if(elementOffsetTop > elementOffsetBottom) {
+          var bottom = positionedParent.length ? positionedParent.outerHeight() - element.position().top + settings.tooltipOffset : $(window).height() - element.position().top + settings.tooltipOffset;
+          tooltip.css({"bottom": bottom});
+        } else {
+          tooltip.css({"top": element.position().top + settings.tooltipOffset + elementHeight});
+        }
+        var pointOfMouseEntryX = positionedParent.length ? event.pageX - positionedParent.offset().left : event.pageX;
+        var pointOfMouseEntryOffsetLeft = positionedParent.length ? pointOfMouseEntryX + positionedParent.offset().left - $(window).scrollLeft() : pointOfMouseEntryX - $(window).scrollLeft();
         var pointOfMouseEntryOffsetRight = $(window).width() - pointOfMouseEntryOffsetLeft;
         var diff = tooltipWidth - pointOfMouseEntryOffsetRight;
         var toolTipXCoord = pointOfMouseEntryX;
@@ -147,28 +152,12 @@
         var maxWidth = parseFloat(tooltip.css("max-width")), tooltipDimensions = getToolTipDimensions(tooltip);
         if(tooltipDimensions.width < maxWidth) tooltip.css({"width": tooltipDimensions.width + 1}); else tooltip.css({"width": maxWidth});
       }
-      function getToolTipXCoord(event, positionedParent) {
-        return positionedParent ? event.pageX - getElementCoords(positionedParent).left : event.pageX;
-      }
-      function getToolTipYCoord(element, positionedParent) {
-        return positionedParent ? getElementCoords(element).top - getElementCoords(positionedParent).top : getElementCoords(element).top;
-      }
       function getPositionedParent(element) {
         var parents = element.parents(), positions = ['absolute', 'relative', 'fixed'], positionedParent = null;
         $.each(parents, function(index, parent) {
-          if(~$.inArray($.trim(parent.style.position), positions)) { positionedParent = parent; return; }
+          if(~$.inArray($.trim($(parent).css("position")), positions)) { positionedParent = parent; return; }
         });
         return positionedParent;
-      }
-      function getElementCoords(element) {
-        var box = element.getBoundingClientRect(), body = document.body, doc = document.documentElement;
-        var scrollTop = window.pageYOffset || doc.scrollTop || body.scrollTop;
-        var scrollLeft = window.pageXOffset || doc.scrollLeft || body.scrollLeft;
-        var clientTop = doc.clientTop || body.clientTop || 0;
-        var clientLeft = doc.clientLeft || body.clientLeft || 0;
-        var top = box.top + scrollTop - clientTop;
-        var left = box.left + scrollLeft - clientLeft;
-        return { top: top, left: left };
       }
       return this;
     }

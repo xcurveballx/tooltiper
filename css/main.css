@@ -280,3 +280,16 @@ textarea {
         page-break-after: avoid;
     }
 }
+body > header, footer {
+  padding: 1.5em 0em;
+  text-align: center;
+}
+body > header {
+  background-color: #cc33cc;
+  font-size: 5em;
+  color: white;
+}
+::selection {
+  background-color: #cc33cc;
+  color: white;
+}
