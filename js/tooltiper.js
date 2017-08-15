@@ -82,8 +82,7 @@
         element.data('tooltiperStop', false);
         if(isToolTipShown(element)) title = resetToolTip(element);
         if(!title) return;
-        element.data("tooltiperTitle", title);
-        element.attr('title', "");
+        element.data("tooltiperTitle", title).attr('title', "");
         var tooltip = createToolTip(title);
         tooltip.data('tooltiperCanMove', true);
         setTooltipWidth(tooltip);
@@ -111,7 +110,7 @@
         return element.next(settings.tooltipElement + "." + settings.tooltipClass);
       }
       function getToolTipDimensions(tooltip) {
-        var clonedTooltip = tooltip.clone().css({"position": "fixed",  "display": "block", "z-index": -9999, "visibility": "hidden", "right": 0, "bottom": 0});
+        var clonedTooltip = tooltip.clone().off().css({"position": "fixed",  "display": "block", "z-index": -9999, "visibility": "hidden", "right": 0, "bottom": 0});
         clonedTooltip.appendTo("body");
         var tooltipHeight = clonedTooltip.outerHeight(), tooltipWidth = clonedTooltip.outerWidth();
         clonedTooltip.remove();
@@ -133,6 +132,7 @@
         } else {
           tooltip.css({"top": element.position().top + settings.tooltipOffset + elementHeight});
         }
+
         var pointOfMouseEntryX = positionedParent.length ? event.pageX - positionedParent.offset().left : event.pageX;
         var pointOfMouseEntryOffsetLeft = positionedParent.length ? pointOfMouseEntryX + positionedParent.offset().left - $(window).scrollLeft() : pointOfMouseEntryX - $(window).scrollLeft();
         var pointOfMouseEntryOffsetRight = $(window).width() - pointOfMouseEntryOffsetLeft;
@@ -155,10 +155,11 @@
       function getPositionedParent(element) {
         var parents = element.parents(), positions = ['absolute', 'relative', 'fixed'], positionedParent = null;
         $.each(parents, function(index, parent) {
-          if(~$.inArray($.trim($(parent).css("position")), positions)) { positionedParent = parent; return; }
+          if(~$.inArray($.trim($(parent).css("position")), positions)) { positionedParent = parent; return false; }
         });
         return positionedParent;
       }
+
       return this;
     }
 })(jQuery, window, document);
