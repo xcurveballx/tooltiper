@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -7,33 +7,31 @@
         <meta name="description" content="Tooltiper - jQuery Plugin">
         <meta name="author" content="xcurveballx">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
-
-        <link rel="stylesheet" href="css/main.css">
-        <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+        <link rel="stylesheet" href="dst/css/main.css">
     </head>
     <body>
-        <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
         <header>
           Tooltiper - jQuery Plugin
         </header>
         <div class="container-fluid">
           <div class="row">
-            <div class="col-xs-12 example example1">
+            <div class="col example example1">
               <header><p><h1>Basic usage</h1></p></header>
               <p>Just select elements with <code>title</code> attribute and call <code>tooltiper()</code> on them inside jQuery's <code>ready()</code> function:</p>
               <p><pre>$(".example1 a").tooltiper();</pre></p>
               <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
             </div>
-            <div class="col-xs-12 example example2">
+          </div>
+          <div class="row">
+            <div class="col example example2">
               <header><p><h1>HTML inside tooltips</h1></p></header>
               <p>In order to treat the content of tooltips as HTML pass <code>tooltipType: 'html'</code> option in <code>tooltiper()</code> plugin:</p>
               <p><pre>$(".example2 a").tooltiper({tooltipType: 'html'});</pre></p>
               <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="<b>Tooltiper</b> - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
             </div>
-            <div class="col-xs-12 example example3">
+          </div>
+          <div class="row">
+            <div class="col example example3">
               <header><p><h1>Appearence mode of tooltips</h1></p></header>
               <p>The default options are <code>'fadeIn/fadeOut'</code>. Other valid options are <code>['show', 'slideDown']</code> for appearence mode and <code>['hide', 'slideUp']</code> for disappearence mode:</p>
               <p><pre>$(".example3 a").tooltiper({
@@ -42,7 +40,9 @@
 });</pre></p>
               <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
             </div>
-            <div class="col-xs-12 example example4">
+          </div>
+          <div class="row">
+            <div class="col example example4">
               <header><p><h1>Appearence/disappearence speed </h1></p></header>
               <p>The default option is <code>'fast'</code>. Other valid options are <code>['slow', 'normal']</code> or some numeric value:</p>
               <p><pre>$(".example4 a").tooltiper({
@@ -51,13 +51,17 @@
 });</pre></p>
               <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
             </div>
-            <div class="col-xs-12 example example5">
+          </div>
+          <div class="row">
+            <div class="col example example5">
               <header><p><h1>Bounding tooltip to the cursor</h1></p></header>
               <p>By default the tooltips don't move after appearing. It is possible to change it and bound the tooltip to the cursor by passing in the option <code>tooltipBound: 'cursor'</code>:</p>
               <p><pre>$(".example5 a").tooltiper({tooltipBound: 'cursor'});</pre></p>
               <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
             </div>
-            <div class="col-xs-12 example example6">
+          </div>
+          <div class="row">
+            <div class="col example example6">
               <header><p><h1>Changing markup and styles of tooltips</h1></p></header>
               <p>The tooltips are created as <code>span</code>s with some predefined css properties applied and class <code>js-tooltiper</code> is assigned. It is possible to change this initial setup:
               <p><pre>$(".example6 a").tooltiper({
@@ -67,7 +71,9 @@
 });</pre></p>
               <a target="_blank" href="https://github.com/xcurveballx/tooltiper" title="Tooltiper - jQuery Plugin">Tooltiper</a> - jQuery plugin to make tooltips.<hr>
             </div>
-            <div class="col-xs-12 example example7">
+          </div>
+          <div class="row">
+            <div class="col example example7">
               <header><p><h1>Tooltiper is chainable</h1></p></header>
               <p>It means that other jQuery functions/plugins can be chained to the Tooltiper call:
               <p><pre>$(".example7 a").tooltiper().on('click', function(event) {
@@ -79,9 +85,6 @@
           </div>
         </div>
         <footer>Available under the MIT license. Author - <a href="https://github.com/xcurveballx" target="_blank">xcurveballx</a> (©).</footer>
-        <script src="https://code.jquery.com/jquery-1.7.min.js" integrity="sha256-/05Jde9AMAT4/o5ZAI23rUf1SxDYTHLrkOco0eyRV84=" crossorigin="anonymous"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
-        <script src="js/tooltiper.min.js"></script>
-        <script src="js/main.js"></script>
+        <script src="dst/js/main.js"></script>
     </body>
 </html>
