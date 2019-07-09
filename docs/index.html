@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width">
+	<title>DocStrap Index</title>
+
+	<!--[if lt IE 9]>
+	<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	<link type="text/css" rel="stylesheet" href="styles/sunlight.default.css">
+
+	<link type="text/css" rel="stylesheet" href="styles/site.journal.css">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top navbar-inverse">
+<div class="container">
+	<div class="navbar-header">
+		<a class="navbar-brand" href="index.html">DocStrap</a>
+		<button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#topNavigation">
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+        </button>
+	</div>
+	<div class="navbar-collapse collapse" id="topNavigation">
+		<ul class="nav navbar-nav">
+			
+			<li class="dropdown">
+				<a href="namespaces.list.html" class="dropdown-toggle" data-toggle="dropdown">Namespaces<b class="caret"></b></a>
+				<ul class="dropdown-menu ">
+					<li><a href="Tooltiper.html">Tooltiper</a></li><li><a href="TooltiperIIFE.html">TooltiperIIFE</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+        
+            <div class="col-sm-3 col-md-3">
+                <form class="navbar-form" role="search">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Search" name="q" id="search-input">
+                        <div class="input-group-btn">
+                            <button class="btn btn-default" id="search-submit"><i class="glyphicon glyphicon-search"></i></button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        
+	</div>
+
+</div>
+</div>
+
+
+<div class="container" id="toc-content">
+<div class="row">
+
+	
+	<div class="col-md-8">
+	
+		<div id="main">
+			
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+
+
+
+
+
+    <section class="readme-section">
+        <article><h1>Tooltiper</h1>
+<p><strong>Tooltiper</strong> is a jQuery tooltip plugin. It allows us to make customizable tooltips on webpages based on common <code>title</code> attribute that can be used with almost all tags.</p>
+<p>HTML-code inside the tooltip, different animations &amp; appearance/disappearance speed, binding to the cursor and more make Tooltiper quite handy.</p>
+<h2>How to import</h2>
+<p>Use <code>npm i @curveballerpacks/tooltiper</code> to install the package. It has no standalone styles, all needed styles can be passed in to the plugin as settings.</p>
+<p>Tooltiper makes use of Node's modules. It requires its only dependency - jQuery - and can be required itself in your script via <code>require(&quot;@curveballerpacks/tooltiper&quot;);</code>. NPM will manage possible duplicates/conflicts of jQuery versions in its dependency graph mostly on its own.</p>
+<h2>Usage</h2>
+<p>Basically, the plugin can be used like this: <code>$('.example1 a').tooltiper();</code>. Also a number of settings listed below can be passed in like this:</p>
+<pre class="prettyprint source lang-js"><code>$('.example6 a').tooltiper({
+  tooltipClass: &quot;js-fancy-class&quot;,
+  tooltipElement: &quot;div&quot;,
+  tooltipCss: {&quot;color&quot;: &quot;red&quot;}
+});
+</code></pre>
+<p>to adjust plugin's behaviour.</p>
+<h2>Settings</h2>
+<p>The following settings can be passed in to the plugin as an object key/value pairs (default values go after =):</p>
+<ul>
+<li><code>tooltipType</code> = text - tooltip's type: plain text or html.</li>
+<li><code>tooltipAppearenceMode</code> = fadeIn - effect's name.</li>
+<li><code>tooltipDisappearenceMode</code> = fadeOut - effect's name.</li>
+<li><code>tooltipOffset</code> = 10 - distance between tooltip and element, in pixels.</li>
+<li><code>tooltipBound</code> = element - is it bound to the element or the cursor.</li>
+<li><code>tooltipShowSpeed</code> = fast - speed like 'fast'.</li>
+<li><code>tooltipHideSpeed</code> = fast - speed like 'fast'.</li>
+<li><code>tooltipClass</code> = js-tooltiper - default tooltiper calss.</li>
+<li><code>tooltipElement</code> = span - default tooltiper HTML-element.</li>
+<li><code>tooltipCss</code> - css key/value pairs object, see the defaults in the code.</li>
+</ul>
+<h2>More examples</h2>
+<p>Examples in action and more detailed explanation can be found on <a href="https://codepen.io/curveball/full/qXjGxO">codepen</a> or <a href="../example.html">example page</a> inside this package.</p></article>
+    </section>
+
+
+
+
+
+
+
+		</div>
+	</div>
+
+	<div class="clearfix"></div>
+
+	
+		<div class="col-md-3">
+			<div id="toc" class="col-md-3 hidden-xs hidden-sm hidden-md"></div>
+		</div>
+	
+
+</div>
+</div>
+
+
+    <div class="modal fade" id="searchResults">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Search results</h4>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div>
+
+
+<footer>
+
+
+	<span class="copyright">
+	DocStrap Copyright © 2012-2015 The contributors to the JSDoc3 and DocStrap projects.
+	</span>
+
+<span class="jsdoc-message">
+	Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.2</a>
+	
+		on Tue Jul 9th 2019
+	
+	using the <a href="https://github.com/docstrap/docstrap">DocStrap template</a>.
+</span>
+</footer>
+
+<script src="scripts/docstrap.lib.js"></script>
+<script src="scripts/toc.js"></script>
+
+    <script type="text/javascript" src="scripts/fulltext-search-ui.js"></script>
+
+
+<script>
+$( function () {
+	$( "[id*='$']" ).each( function () {
+		var $this = $( this );
+
+		$this.attr( "id", $this.attr( "id" ).replace( "$", "__" ) );
+	} );
+
+	$( ".tutorial-section pre, .readme-section pre, pre.prettyprint.source" ).each( function () {
+		var $this = $( this );
+
+		var example = $this.find( "code" );
+		exampleText = example.html();
+		var lang = /{@lang (.*?)}/.exec( exampleText );
+		if ( lang && lang[1] ) {
+			exampleText = exampleText.replace( lang[0], "" );
+			example.html( exampleText );
+			lang = lang[1];
+		} else {
+			var langClassMatch = example.parent()[0].className.match(/lang\-(\S+)/);
+			lang = langClassMatch ? langClassMatch[1] : "javascript";
+		}
+
+		if ( lang ) {
+
+			$this
+			.addClass( "sunlight-highlight-" + lang )
+			.addClass( "linenums" )
+			.html( example.html() );
+
+		}
+	} );
+
+	Sunlight.highlightAll( {
+		lineNumbers : true,
+		showMenu : true,
+		enableDoclinks : true
+	} );
+
+	$.catchAnchorLinks( {
+        navbarOffset: 10
+	} );
+	$( "#toc" ).toc( {
+		anchorName  : function ( i, heading, prefix ) {
+			return $( heading ).attr( "id" ) || ( prefix + i );
+		},
+		selectors   : "#toc-content h1,#toc-content h2,#toc-content h3,#toc-content h4",
+		showAndHide : false,
+		smoothScrolling: true
+	} );
+
+	$( "#main span[id^='toc']" ).addClass( "toc-shim" );
+	$( '.dropdown-toggle' ).dropdown();
+
+    $( "table" ).each( function () {
+      var $this = $( this );
+      $this.addClass('table');
+    } );
+
+} );
+</script>
+
+
+
+<!--Navigation and Symbol Display-->
+
+
+<!--Google Analytics-->
+
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            SearcherDisplay.init();
+        });
+    </script>
+
+
+</body>
+</html>

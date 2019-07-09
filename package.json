@@ -5,7 +5,7 @@
   "main": "src/js/tooltiper.js",
   "scripts": {
     "test": "mocha --timeout 10000 tooltiper.test.js || true",
-    "doc": "jsdoc src/js/tooltiper.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json  -t ./node_modules/ink-docstrap/template -d ./docs -R README.md",
+    "doc": "rm -rf docs && jsdoc src/js/tooltiper.js -c ./node_modules/ink-docstrap/template/jsdoc.conf.json  -t ./node_modules/ink-docstrap/template -d ./docs -R README.md",
     "preversion": "npm test",
     "version": "npm run doc && git add -A",
     "postversion": "git push && git push --tags && npm publish --access public"
