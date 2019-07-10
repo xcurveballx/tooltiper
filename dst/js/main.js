@@ -10714,7 +10714,7 @@ var jQuery = require("jquery");
        * @param {string} [settings.tooltipHideSpeed=fast] - speed like 'fast'.
        * @param {string} [settings.tooltipClass=js-tooltiper] - defaults to 'js-tooltiper'.
        * @param {string} [settings.tooltipElement=span] - defaults to span.
-       * @param {object.<string, string>} settings.tooltipCss - css key/value pairs styles, see the defaults in the code below.
+       * @param {object.<string, string>} [settings.tooltipCss] - css key/value pairs styles, see the defaults in the code below.
        * @returns {boolean} whether the settings are valid.
        */
       function areSettingsValid( settings ) {
@@ -10895,7 +10895,7 @@ var jQuery = require("jquery");
        * @returns {undefined}
        */
       function setTooltipCoords( event, element, tooltip ) {
-          var positionedParent = $( getPositionedParent(element) ),
+          var positionedParent = $( getPositionedParent( element ) ),
               tooltipWidth = tooltip.outerWidth();
 
           var elementOffsetTop = element.offset().top - $( window ).scrollTop();

@@ -262,7 +262,7 @@ var jQuery = require("jquery");
        * @returns {undefined}
        */
       function setTooltipCoords( event, element, tooltip ) {
-          var positionedParent = $( getPositionedParent(element) ),
+          var positionedParent = $( getPositionedParent( element ) ),
               tooltipWidth = tooltip.outerWidth();
 
           var elementOffsetTop = element.offset().top - $( window ).scrollTop();
